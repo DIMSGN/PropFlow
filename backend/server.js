@@ -232,6 +232,9 @@ app.use((err, req, res, next) => {
     message:
       NODE_ENV === "production" ? "An unexpected error occurred" : err.message,
     ...(NODE_ENV === "development" && { stack: err.stack }),
+  });
+});
+
 /**
  * Εκκίνηση Server (Start Server)
  * Bind to 0.0.0.0 for Render compatibility
@@ -240,9 +243,6 @@ const server = app.listen(PORT, "0.0.0.0", () => {
   console.log("\n🚀 PropFlow Server Started");
   console.log(`   Environment: ${NODE_ENV}`);
   console.log(`   Port: ${PORT}`);
-  console.log(`   URL: http://localhost:${PORT}`);
-  console.log(`   Health Check: http://localhost:${PORT}/health\n`);
-});onsole.log(`   Port: ${PORT}`);
   console.log(`   URL: http://localhost:${PORT}`);
   console.log(`   Health Check: http://localhost:${PORT}/health\n`);
 });
