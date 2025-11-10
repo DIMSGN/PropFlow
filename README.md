@@ -237,23 +237,6 @@ These are **learning opportunities**, not blockers! The app works well for its c
 
 - 📖 [SETUP.md](./SETUP.md) - Installation and configuration guide
 - 📖 [API.md](./API.md) - API Documentation (endpoints, parameters)
-- 📖 [DEPLOYMENT.md](./DEPLOYMENT.md) - CleverCloud deployment guide
-
-### Deployment
-
-This app is ready to deploy to CleverCloud! See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions.
-
-**Quick Deploy:**
-```bash
-# Backend
-clever create --type node propflow-backend
-clever addon create mysql-addon propflow-db --link propflow-backend
-git push clever master
-
-# Frontend
-clever create --type static propflow-frontend
-git push clever master
-```
 
 ### License
 

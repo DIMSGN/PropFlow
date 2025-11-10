@@ -1,6 +1,6 @@
 # Pre-Deployment Checklist
 
-Before pushing to GitHub and deploying to CleverCloud, verify these steps:
+Before pushing to GitHub, verify these steps:
 
 ## ✅ Git & GitHub Setup
 
@@ -49,7 +49,6 @@ Before pushing to GitHub and deploying to CleverCloud, verify these steps:
 - [ ] **README.md** - Updated with deployment info
 - [ ] **SETUP.md** - Installation guide
 - [ ] **API.md** - API documentation
-- [ ] **DEPLOYMENT.md** - CleverCloud deployment guide
 - [ ] **TECHNICAL_REVIEW.md** - Excluded from git (in .gitignore)
 
 ## ✅ Code Quality Check
@@ -69,81 +68,7 @@ Before pushing to GitHub and deploying to CleverCloud, verify these steps:
 - [ ] Schema is up-to-date with your models
 - [ ] Test data is NOT included (or clearly marked as sample data)
 
-## 🚀 Ready to Deploy to CleverCloud
-
-Once pushed to GitHub, follow these steps:
-
-### 1. Install CleverCloud CLI
-```bash
-npm install -g clever-tools
-clever login
-```
-
-### 2. Deploy Backend
-```bash
-cd backend
-
-# Create application
-clever create --type node propflow-backend --region par
-
-# Add MySQL addon
-clever addon create mysql-addon propflow-db --plan xs_sml --region par --link propflow-backend
-
-# Set environment variables
-clever env set NODE_ENV production
-clever env set SYNC_DB false
-clever env set FRONTEND_URL https://your-frontend-app.cleverapps.io
-
-# Link and deploy
-clever link propflow-backend
-git push clever master
-```
-
-### 3. Import Database Schema
-```bash
-# Get MySQL credentials
-clever env | grep MYSQL
-
-# Connect and import
-mysql -h <HOST> -u <USER> -p<PASSWORD> <DB> < ../database/clevercloud-schema.sql
-```
-
-### 4. Create Admin User
-```bash
-# Generate password hash
-node -e "console.log(require('bcryptjs').hashSync('your_password', 10))"
-
-# Insert user (connect to MySQL first)
-INSERT INTO Users (full_name, email, password_hash, role, is_active, createdAt, updatedAt)
-VALUES ('Admin', 'admin@yourdomain.com', '<hash>', 'admin', 1, NOW(), NOW());
-```
-
-### 5. Deploy Frontend
-```bash
-cd ../frontend
-
-# Create application
-clever create --type static propflow-frontend --region par
-
-# Set environment
-clever env set REACT_APP_API_URL https://propflow-backend.cleverapps.io
-clever env set NODE_ENV production
-
-# Link and deploy
-clever link propflow-frontend
-git push clever master
-```
-
-### 6. Test Deployment
-```bash
-# Backend health check
-curl https://propflow-backend.cleverapps.io/health
-
-# Open frontend
-clever open --alias propflow-frontend
-```
-
-## 📝 Post-Deployment
+## � Post-Setup
 
 - [ ] Test login with admin credentials
 - [ ] Create a test client
@@ -154,26 +79,23 @@ clever open --alias propflow-frontend
 
 ## 🎉 Done!
 
-Your app is now live! Share the URL:
-- Frontend: `https://propflow-frontend.cleverapps.io`
-- Backend: `https://propflow-backend.cleverapps.io`
+Your app is now ready for development!
 
 ## 🐛 Troubleshooting
 
 If something doesn't work:
 
-1. **Check logs**: `clever logs -f`
-2. **Check environment variables**: `clever env`
-3. **Verify database connection**: Check MySQL addon is linked
-4. **CORS issues**: Verify FRONTEND_URL matches actual frontend URL
+1. **Check logs**: Review terminal output for errors
+2. **Check environment variables**: Verify .env files are configured correctly
+3. **Verify database connection**: Ensure MySQL is running and credentials are correct
+4. **CORS issues**: Verify backend and frontend URLs are configured properly
 5. **Build fails**: Check Node version (must be >= 18.0.0)
 
 ## 📚 Resources
 
-- CleverCloud Docs: https://www.clever-cloud.com/doc/
 - GitHub Docs: https://docs.github.com/
-- Project Documentation: See DEPLOYMENT.md for detailed guide
+- Project Documentation: See SETUP.md for detailed guide
 
 ---
 
-**Good luck with your deployment! 🚀**
+**Good luck with your development! 🚀**

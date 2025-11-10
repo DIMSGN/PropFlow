@@ -55,9 +55,6 @@ FLUSH PRIVILEGES;
 ```bash
 # Χρησιμοποιήστε το schema αρχείο
 mysql -u root -p propflow < database/schema.sql
-
-# Ή για CleverCloud:
-mysql -u root -p propflow < database/clevercloud-schema.sql
 ```
 
 ### Βήμα 4: Ρύθμιση Environment Variables
@@ -317,9 +314,6 @@ FLUSH PRIVILEGES;
 ```bash
 # Use the schema file
 mysql -u root -p propflow < database/schema.sql
-
-# Or for CleverCloud:
-mysql -u root -p propflow < database/clevercloud-schema.sql
 ```
 
 ### Step 4: Configure Environment Variables

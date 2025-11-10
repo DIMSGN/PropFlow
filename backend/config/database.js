@@ -3,23 +3,16 @@ const { Sequelize } = require("sequelize");
 /**
  * Ρύθμιση σύνδεσης βάσης δεδομένων (Database Connection Configuration)
  *
- * Υποστηρίζει δύο τρόπους ρύθμισης:
- * 1. Χειροκίνητη ρύθμιση (DB_NAME, DB_USER, DB_PASSWORD, DB_HOST)
- * 2. Auto-injection από CleverCloud (MYSQL_ADDON_*)
- *
  * @module config/database
  */
 
 // Φόρτωση ρυθμίσεων από environment variables (Load configuration from environment variables)
 const dbConfig = {
-  database: process.env.DB_NAME || process.env.MYSQL_ADDON_DB,
-  username: process.env.DB_USER || process.env.MYSQL_ADDON_USER,
-  password: process.env.DB_PASSWORD || process.env.MYSQL_ADDON_PASSWORD,
-  host: process.env.DB_HOST || process.env.MYSQL_ADDON_HOST,
-  port: parseInt(
-    process.env.DB_PORT || process.env.MYSQL_ADDON_PORT || "3306",
-    10
-  ),
+  database: process.env.DB_NAME,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  host: process.env.DB_HOST,
+  port: parseInt(process.env.DB_PORT || "3306", 10),
 };
 
 // Έλεγχος ότι όλες οι απαραίτητες μεταβλητές υπάρχουν (Validate required variables exist)

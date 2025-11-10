@@ -51,10 +51,6 @@ backend/uploads/*
 # Technical review (internal use only, not for GitHub)
 TECHNICAL_REVIEW.md
 
-# CleverCloud
-.clevercloud/
-.database/
-
 # Database backups
 *.sql.backup
 *.sql.bak
