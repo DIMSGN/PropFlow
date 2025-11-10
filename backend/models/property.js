@@ -47,6 +47,7 @@ const Property = sequelize.define(
     },
   },
   {
+    tableName: "Properties",
     timestamps: true,
     indexes: [
       {

@@ -58,6 +58,7 @@ const Appointment = sequelize.define(
     },
   },
   {
+    tableName: "Appointments",
     timestamps: true,
     indexes: [
       {

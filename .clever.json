@@ -1,19 +1,20 @@
 {
   "apps": [
     {
-      "app_id": "REPLACE_WITH_YOUR_BACKEND_APP_ID",
-      "org_id": "REPLACE_WITH_YOUR_ORG_ID",
-      "deploy_url": "https://push-par-clevercloud-customers.services.clever-cloud.com/app_REPLACE.git",
-      "name": "calendar-backend",
-      "alias": "calendar-backend"
-    },
-    {
       "app_id": "app_22b3c88f-da48-420c-8950-20553fdac868",
       "org_id": "user_cdb59168-e37c-4bfc-8af2-232cb181d583",
       "deploy_url": "https://push-n3-par-clevercloud-customers.services.clever-cloud.com/app_22b3c88f-da48-420c-8950-20553fdac868.git",
       "git_ssh_url": "git+ssh://git@push-n3-par-clevercloud-customers.services.clever-cloud.com/app_22b3c88f-da48-420c-8950-20553fdac868.git",
       "name": "propflow-backend",
       "alias": "propflow-backend"
+    },
+    {
+      "app_id": "app_0b5048e2-c960-48d7-8939-02724f38759d",
+      "org_id": "user_cdb59168-e37c-4bfc-8af2-232cb181d583",
+      "deploy_url": "https://push-n3-par-clevercloud-customers.services.clever-cloud.com/app_0b5048e2-c960-48d7-8939-02724f38759d.git",
+      "git_ssh_url": "git+ssh://git@push-n3-par-clevercloud-customers.services.clever-cloud.com/app_0b5048e2-c960-48d7-8939-02724f38759d.git",
+      "name": "propflow-frontend",
+      "alias": "propflow-frontend"
     }
   ]
 }
