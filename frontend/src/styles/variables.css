@@ -1,0 +1,147 @@
+:root {
+  /* Spacing Scale - Consistent spacing throughout the app */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+  
+  /* Border Radius - Soft, rounded corners */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+  
+  /* Typography Scale */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 2rem;      /* 32px */
+  
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Z-index Layers */
+  --z-base: 1;
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-tooltip: 1070;
+}
+
+/* Light Theme - Clean, bright background */
+[data-theme="light"],
+.light-mode {
+  /* Background gradients matching design */
+  --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  
+  /* Surface colors */
+  --surface-primary: rgba(255, 255, 255, 0.95);
+  --surface-secondary: rgba(255, 255, 255, 0.85);
+  --surface-elevated: #ffffff;
+  --surface-hover: rgba(0, 0, 0, 0.02);
+  
+  /* Text colors */
+  --text-primary: #1a202c;
+  --text-secondary: #4a5568;
+  --text-tertiary: #718096;
+  --text-inverse: #ffffff;
+  
+  /* Border colors */
+  --border-primary: rgba(0, 0, 0, 0.08);
+  --border-secondary: rgba(0, 0, 0, 0.12);
+  --border-focus: #667eea;
+  
+  /* Action colors */
+  --color-primary: #667eea;
+  --color-primary-hover: #5568d3;
+  --color-primary-active: #4c51bf;
+  
+  --color-success: #48bb78;
+  --color-success-hover: #38a169;
+  
+  --color-danger: #f56565;
+  --color-danger-hover: #e53e3e;
+  
+  --color-warning: #ed8936;
+  --color-warning-hover: #dd6b20;
+  
+  /* Logo colors - darker for better visibility in light mode */
+  --logo-icon-color: #4c51bf;
+  --logo-cms-color: #5568d3;
+  
+  /* Shadows - Soft and subtle */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 12px 36px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark Theme - Sleek, modern dark background */
+[data-theme="dark"],
+.dark-mode {
+  /* Background gradients matching design */
+  --bg-gradient: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+  
+  /* Surface colors */
+  --surface-primary: rgba(26, 32, 44, 0.85);
+  --surface-secondary: rgba(45, 55, 72, 0.75);
+  --surface-elevated: rgba(45, 55, 72, 0.95);
+  --surface-hover: rgba(255, 255, 255, 0.05);
+  
+  /* Text colors */
+  --text-primary: #f7fafc;
+  --text-secondary: #e2e8f0;
+  --text-tertiary: #a0aec0;
+  --text-inverse: #1a202c;
+  
+  /* Border colors */
+  --border-primary: rgba(255, 255, 255, 0.08);
+  --border-secondary: rgba(255, 255, 255, 0.12);
+  --border-focus: #48bb78;
+  
+  /* Action colors */
+  --color-primary: #48bb78;
+  --color-primary-hover: #38a169;
+  --color-primary-active: #2f855a;
+  
+  --color-success: #48bb78;
+  --color-success-hover: #38a169;
+  
+  --color-danger: #fc8181;
+  --color-danger-hover: #f56565;
+  
+  --color-warning: #f6ad55;
+  --color-warning-hover: #ed8936;
+  
+  /* Logo colors - bright for visibility in dark mode */
+  --logo-icon-color: #48bb78;
+  --logo-cms-color: #68d391;
+  
+  /* Shadows - Deeper for dark mode */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 12px 36px rgba(0, 0, 0, 0.7);
+}

@@ -1,0 +1,119 @@
+@import './styles/variables.css';
+
+/* ==========================================================================
+   GLOBAL RESET & BASE STYLES
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 
+               'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 
+               sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: var(--line-height-normal);
+  transition: background var(--transition-base), color var(--transition-base);
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   THEME BACKGROUNDS - LIGHT MODE
+   ========================================================================== */
+
+body.light-mode {
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  position: relative;
+  overflow-x: hidden;
+}
+
+body.light-mode::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='circuit' x='0' y='0' width='200' height='200' patternUnits='userSpaceOnUse'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.2)' stroke-width='1.5'%3E%3Cpath d='M20 20h40M80 20h60M160 20h20'/%3E%3Cpath d='M20 60h25M60 60h40M120 60h40M175 60h25'/%3E%3Cpath d='M20 100h60M100 100h35M155 100h45'/%3E%3Cpath d='M20 140h35M75 140h45M140 140h30M185 140h15'/%3E%3Cpath d='M20 180h50M90 180h40M150 180h50'/%3E%3Cpath d='M20 20v25M20 60v20M20 100v20'/%3E%3Cpath d='M60 20v30M60 80v40'/%3E%3Cpath d='M100 40v40M100 100v60'/%3E%3Cpath d='M140 20v60M140 100v25M140 140v40'/%3E%3Cpath d='M180 40v40M180 100v25M180 140v40'/%3E%3Ccircle cx='20' cy='20' r='3' fill='rgba(255,255,255,0.35)' stroke='rgba(255,255,255,0.25)' stroke-width='1'/%3E%3Ccircle cx='60' cy='20' r='3' fill='rgba(255,255,255,0.35)' stroke='rgba(255,255,255,0.25)' stroke-width='1'/%3E%3Ccircle cx='140' cy='20' r='3' fill='rgba(255,255,255,0.35)' stroke='rgba(255,255,255,0.25)' stroke-width='1'/%3E%3Ccircle cx='20' cy='60' r='3' fill='rgba(255,255,255,0.35)' stroke='rgba(255,255,255,0.25)' stroke-width='1'/%3E%3Ccircle cx='60' cy='60' r='3' fill='rgba(255,255,255,0.35)' stroke='rgba(255,255,255,0.25)' stroke-width='1'/%3E%3Ccircle cx='100' cy='60' r='3' fill='rgba(255,255,255,0.35)' stroke='rgba(255,255,255,0.25)' stroke-width='1'/%3E%3Ccircle cx='140' cy='60' r='3' fill='rgba(255,255,255,0.35)' stroke='rgba(255,255,255,0.25)' stroke-width='1'/%3E%3Ccircle cx='20' cy='100' r='3' fill='rgba(255,255,255,0.35)' stroke='rgba(255,255,255,0.25)' stroke-width='1'/%3E%3Ccircle cx='100' cy='100' r='3' fill='rgba(255,255,255,0.35)' stroke='rgba(255,255,255,0.25)' stroke-width='1'/%3E%3Ccircle cx='140' cy='100' r='3' fill='rgba(255,255,255,0.35)' stroke='rgba(255,255,255,0.25)' stroke-width='1'/%3E%3Ccircle cx='180' cy='100' r='3' fill='rgba(255,255,255,0.35)' stroke='rgba(255,255,255,0.25)' stroke-width='1'/%3E%3Ccircle cx='20' cy='140' r='3' fill='rgba(255,255,255,0.35)' stroke='rgba(255,255,255,0.25)' stroke-width='1'/%3E%3Ccircle cx='140' cy='140' r='3' fill='rgba(255,255,255,0.35)' stroke='rgba(255,255,255,0.25)' stroke-width='1'/%3E%3Ccircle cx='180' cy='140' r='3' fill='rgba(255,255,255,0.35)' stroke='rgba(255,255,255,0.25)' stroke-width='1'/%3E%3Ccircle cx='20' cy='180' r='3' fill='rgba(255,255,255,0.35)' stroke='rgba(255,255,255,0.25)' stroke-width='1'/%3E%3Ccircle cx='100' cy='180' r='3' fill='rgba(255,255,255,0.35)' stroke='rgba(255,255,255,0.25)' stroke-width='1'/%3E%3Ccircle cx='180' cy='180' r='3' fill='rgba(255,255,255,0.35)' stroke='rgba(255,255,255,0.25)' stroke-width='1'/%3E%3Crect x='35' y='35' width='15' height='15' fill='none' stroke='rgba(255,255,255,0.25)' stroke-width='1.5' rx='2'/%3E%3Crect x='115' y='75' width='15' height='15' fill='none' stroke='rgba(255,255,255,0.25)' stroke-width='1.5' rx='2'/%3E%3Crect x='155' y='115' width='15' height='15' fill='none' stroke='rgba(255,255,255,0.25)' stroke-width='1.5' rx='2'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23circuit)'/%3E%3C/svg%3E");
+  background-size: 400px 400px;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ==========================================================================
+   THEME BACKGROUNDS - DARK MODE
+   ========================================================================== */
+
+body.dark-mode {
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  position: relative;
+  overflow-x: hidden;
+}
+
+body.dark-mode::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='circuit-dark' x='0' y='0' width='200' height='200' patternUnits='userSpaceOnUse'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.12)' stroke-width='1.5'%3E%3Cpath d='M20 20h40M80 20h60M160 20h20'/%3E%3Cpath d='M20 60h25M60 60h40M120 60h40M175 60h25'/%3E%3Cpath d='M20 100h60M100 100h35M155 100h45'/%3E%3Cpath d='M20 140h35M75 140h45M140 140h30M185 140h15'/%3E%3Cpath d='M20 180h50M90 180h40M150 180h50'/%3E%3Cpath d='M20 20v25M20 60v20M20 100v20'/%3E%3Cpath d='M60 20v30M60 80v40'/%3E%3Cpath d='M100 40v40M100 100v60'/%3E%3Cpath d='M140 20v60M140 100v25M140 140v40'/%3E%3Cpath d='M180 40v40M180 100v25M180 140v40'/%3E%3Ccircle cx='20' cy='20' r='3' fill='rgba(102,126,234,0.4)' stroke='rgba(102,126,234,0.6)' stroke-width='1'/%3E%3Ccircle cx='60' cy='20' r='3' fill='rgba(72,187,120,0.4)' stroke='rgba(72,187,120,0.6)' stroke-width='1'/%3E%3Ccircle cx='140' cy='20' r='3' fill='rgba(102,126,234,0.4)' stroke='rgba(102,126,234,0.6)' stroke-width='1'/%3E%3Ccircle cx='20' cy='60' r='3' fill='rgba(72,187,120,0.4)' stroke='rgba(72,187,120,0.6)' stroke-width='1'/%3E%3Ccircle cx='60' cy='60' r='3' fill='rgba(102,126,234,0.4)' stroke='rgba(102,126,234,0.6)' stroke-width='1'/%3E%3Ccircle cx='100' cy='60' r='3' fill='rgba(72,187,120,0.4)' stroke='rgba(72,187,120,0.6)' stroke-width='1'/%3E%3Ccircle cx='140' cy='60' r='3' fill='rgba(102,126,234,0.4)' stroke='rgba(102,126,234,0.6)' stroke-width='1'/%3E%3Ccircle cx='20' cy='100' r='3' fill='rgba(72,187,120,0.4)' stroke='rgba(72,187,120,0.6)' stroke-width='1'/%3E%3Ccircle cx='100' cy='100' r='3' fill='rgba(102,126,234,0.4)' stroke='rgba(102,126,234,0.6)' stroke-width='1'/%3E%3Ccircle cx='140' cy='100' r='3' fill='rgba(72,187,120,0.4)' stroke='rgba(72,187,120,0.6)' stroke-width='1'/%3E%3Ccircle cx='180' cy='100' r='3' fill='rgba(102,126,234,0.4)' stroke='rgba(102,126,234,0.6)' stroke-width='1'/%3E%3Ccircle cx='20' cy='140' r='3' fill='rgba(72,187,120,0.4)' stroke='rgba(72,187,120,0.6)' stroke-width='1'/%3E%3Ccircle cx='140' cy='140' r='3' fill='rgba(102,126,234,0.4)' stroke='rgba(102,126,234,0.6)' stroke-width='1'/%3E%3Ccircle cx='180' cy='140' r='3' fill='rgba(72,187,120,0.4)' stroke='rgba(72,187,120,0.6)' stroke-width='1'/%3E%3Ccircle cx='20' cy='180' r='3' fill='rgba(102,126,234,0.4)' stroke='rgba(102,126,234,0.6)' stroke-width='1'/%3E%3Ccircle cx='100' cy='180' r='3' fill='rgba(72,187,120,0.4)' stroke='rgba(72,187,120,0.6)' stroke-width='1'/%3E%3Ccircle cx='180' cy='180' r='3' fill='rgba(102,126,234,0.4)' stroke='rgba(102,126,234,0.6)' stroke-width='1'/%3E%3Crect x='35' y='35' width='15' height='15' fill='none' stroke='rgba(255,255,255,0.15)' stroke-width='1.5' rx='2'/%3E%3Crect x='115' y='75' width='15' height='15' fill='none' stroke='rgba(255,255,255,0.15)' stroke-width='1.5' rx='2'/%3E%3Crect x='155' y='115' width='15' height='15' fill='none' stroke='rgba(255,255,255,0.15)' stroke-width='1.5' rx='2'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23circuit-dark)'/%3E%3C/svg%3E");
+  background-size: 400px 400px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ==========================================================================
+   UTILITY CLASSES
+   ========================================================================== */
+
+/* Text Alignment */
+.u-text-center { text-align: center; }
+.u-text-left { text-align: left; }
+.u-text-right { text-align: right; }
+
+/* Flexbox */
+.u-flex { display: flex; }
+.u-flex-column { flex-direction: column; }
+.u-flex-center { 
+  align-items: center; 
+  justify-content: center; 
+}
+
+/* Gaps */
+.u-gap-sm { gap: var(--spacing-sm); }
+.u-gap-md { gap: var(--spacing-md); }
+.u-gap-lg { gap: var(--spacing-lg); }
+
+/* Margins */
+.u-mt-sm { margin-top: var(--spacing-sm); }
+.u-mt-md { margin-top: var(--spacing-md); }
+.u-mt-lg { margin-top: var(--spacing-lg); }
+.u-mb-sm { margin-bottom: var(--spacing-sm); }
+.u-mb-md { margin-bottom: var(--spacing-md); }
+.u-mb-lg { margin-bottom: var(--spacing-lg); }
+
+/* Padding */
+.u-p-sm { padding: var(--spacing-sm); }
+.u-p-md { padding: var(--spacing-md); }
+.u-p-lg { padding: var(--spacing-lg); }
+

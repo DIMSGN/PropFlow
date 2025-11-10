@@ -1,0 +1,75 @@
+/* ==========================================================================
+   SIDEBAR NAVIGATION
+   ========================================================================== */
+
+.side-nav {
+  width: 280px;
+  padding: var(--spacing-xl) 0;
+  background-color: var(--surface-elevated);
+  box-shadow: var(--shadow-lg);
+  color: var(--text-primary);
+}
+
+.side-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.side-nav ul li a {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md) var(--spacing-lg);
+  text-decoration: none;
+  color: var(--text-primary);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-base);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+  cursor: pointer;
+}
+
+.side-nav ul li a:hover {
+  background-color: var(--surface-hover);
+  color: var(--color-primary);
+}
+
+.side-nav .MuiListItemIcon-root {
+  min-width: 40px;
+  color: var(--text-secondary);
+}
+
+.side-nav .MuiListItemText-primary {
+  color: var(--text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Menu Icon Button */
+.menu-icon-button {
+  position: fixed !important;
+  top: 20px !important;
+  left: 20px !important;
+  z-index: var(--z-fixed) !important;
+  background-color: var(--surface-elevated) !important;
+  box-shadow: var(--shadow-md) !important;
+  transition: all var(--transition-base) !important;
+}
+
+.menu-icon-button:hover {
+  box-shadow: var(--shadow-lg) !important;
+  transform: scale(1.05);
+}
+
+.menu-icon-button svg {
+  color: var(--text-primary);
+}
+
+/* Material-UI Drawer Overrides */
+.MuiDrawer-paper {
+  background-color: var(--surface-elevated) !important;
+}
+
+.MuiDivider-root {
+  border-color: var(--border-primary) !important;
+  margin: var(--spacing-sm) 0 !important;
+}
+

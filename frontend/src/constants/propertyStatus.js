@@ -1,0 +1,27 @@
+// Property Status Constants
+export const PROPERTY_STATUS = {
+  AVAILABLE: "available",
+  RESERVED: "reserved",
+  SOLD: "sold",
+};
+
+export const PROPERTY_STATUS_LABELS = {
+  [PROPERTY_STATUS.AVAILABLE]: "Available",
+  [PROPERTY_STATUS.RESERVED]: "Reserved",
+  [PROPERTY_STATUS.SOLD]: "Sold",
+};
+
+export const PROPERTY_STATUS_OPTIONS = [
+  {
+    value: PROPERTY_STATUS.AVAILABLE,
+    label: PROPERTY_STATUS_LABELS[PROPERTY_STATUS.AVAILABLE],
+  },
+  {
+    value: PROPERTY_STATUS.RESERVED,
+    label: PROPERTY_STATUS_LABELS[PROPERTY_STATUS.RESERVED],
+  },
+  {
+    value: PROPERTY_STATUS.SOLD,
+    label: PROPERTY_STATUS_LABELS[PROPERTY_STATUS.SOLD],
+  },
+];

@@ -1,0 +1,59 @@
+{
+  "name": "calendar-frontend",
+  "version": "1.0.0",
+  "proxy": "http://localhost:3001",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "react-scripts start",
+    "build": "CI=false node node_modules/react-scripts/bin/react-scripts.js build",
+    "start:prod": "serve -s build -l $PORT",
+    "lint": "eslint src/**/*.{js,jsx}",
+    "lint:fix": "eslint src/**/*.{js,jsx} --fix",
+    "format": "prettier --write \"src/**/*.{js,jsx,json,css,md}\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,json,css,md}\""
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "prettier": "^3.6.2"
+  },
+  "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "@mui/icons-material": "^5.18.0",
+    "@mui/material": "^5.18.0",
+    "@mui/x-date-pickers": "^6.20.2",
+    "axios": "^1.7.9",
+    "calendar-app": "file:..",
+    "dayjs": "^1.11.19",
+    "express": "^4.18.2",
+    "moment": "^2.30.1",
+    "react": "^18.3.1",
+    "react-big-calendar": "^1.19.4",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0",
+    "react-scripts": "^5.0.1",
+    "serve": "^14.2.1",
+    "web-vitals": "^4.2.4"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

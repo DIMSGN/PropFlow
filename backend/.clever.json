@@ -1,0 +1,11 @@
+{
+  "apps": [
+    {
+      "app_id": "REPLACE_WITH_YOUR_BACKEND_APP_ID",
+      "org_id": "REPLACE_WITH_YOUR_ORG_ID",
+      "deploy_url": "https://push-par-clevercloud-customers.services.clever-cloud.com/app_REPLACE.git",
+      "name": "calendar-backend",
+      "alias": "calendar-backend"
+    }
+  ]
+}
