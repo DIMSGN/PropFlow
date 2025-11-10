@@ -4,7 +4,7 @@ services:
     name: propflow-backend
     env: node
     plan: free
-    region: frankfurt  # Choose closest region: oregon, frankfurt, singapore, etc.
+    region: oregon  # Choose closest region: oregon, frankfurt, singapore, etc.
     buildCommand: npm install
     startCommand: npm start
     envVars:
@@ -12,7 +12,9 @@ services:
         value: production
       - key: PORT
         value: 10000
-      # Database connection - Link these from your Render MySQL instance
+      - key: DB_DIALECT
+        value: postgres
+      # Database connection - Link these from your Render PostgreSQL instance
       - key: DB_HOST
         fromDatabase:
           name: propflow-db
@@ -43,11 +45,13 @@ services:
         value: 5
       - key: DB_POOL_MIN
         value: 1
+      - key: ALLOW_VERCEL_PREVIEWS
+        value: true
     healthCheckPath: /health
 
 databases:
-  # PropFlow MySQL Database
+  # PropFlow PostgreSQL Database
   - name: propflow-db
     databaseName: propflow
     plan: free
-    region: frankfurt  # Must match backend region for best performance
+    region: oregon  # Must match backend region for best performance
