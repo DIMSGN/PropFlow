@@ -1,56 +1,32 @@
+
+```
 # Dependencies
 node_modules/
-/.pnp
-.pnp.js
-
-# Testing
-/coverage
-
-# Production
-/build
-/dist
+*/node_modules/
 
 # Environment variables
 .env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.production
+backend/.env
+frontend/.env
+
+# Build outputs
+frontend/build/
+frontend/dist/
+backend/dist/
 
 # Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
 *.log
+npm-debug.log*
 
-# OS
+# OS files
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Uploads
+# Uploads (don't commit user uploads)
 backend/uploads/*
 !backend/uploads/.gitkeep
+```
 
-# Misc
-.cache
-.temp
-
-# Technical review (internal use only, not for GitHub)
-TECHNICAL_REVIEW.md
-
-# Database backups
-*.sql.backup
-*.sql.bak
+```bash

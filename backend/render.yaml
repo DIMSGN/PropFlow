@@ -1,0 +1,53 @@
+services:
+  # PropFlow Backend Service
+  - type: web
+    name: propflow-backend
+    env: node
+    plan: free
+    region: frankfurt  # Choose closest region: oregon, frankfurt, singapore, etc.
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      # Database connection - Link these from your Render MySQL instance
+      - key: DB_HOST
+        fromDatabase:
+          name: propflow-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: propflow-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: propflow-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: propflow-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: propflow-db
+          property: password
+      - key: DB_SSL
+        value: true
+      # CORS - Add your Vercel frontend URL after deployment
+      - key: FRONTEND_URL
+        value: https://your-app.vercel.app
+      # Optional pool settings (defaults are fine for free tier)
+      - key: DB_POOL_MAX
+        value: 5
+      - key: DB_POOL_MIN
+        value: 1
+    healthCheckPath: /health
+
+databases:
+  # PropFlow MySQL Database
+  - name: propflow-db
+    databaseName: propflow
+    plan: free
+    region: frankfurt  # Must match backend region for best performance

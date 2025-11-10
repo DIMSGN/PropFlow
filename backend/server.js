@@ -53,6 +53,8 @@ if (NODE_ENV === "development") {
 const allowedOrigins = [
   process.env.FRONTEND_URL || "http://localhost:3000",
   "http://localhost:3000",
+  // Allow all Vercel preview deployments during development
+  ...(process.env.ALLOW_VERCEL_PREVIEWS === "true" ? [] : []),
 ];
 
 app.use(
@@ -62,11 +64,22 @@ app.use(
       // Allow requests with no origin (e.g., mobile apps, Postman)
       if (!origin) return callback(null, true);
 
+      // Check if origin is in allowed list
       if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error(`Origin ${origin} not allowed by CORS`));
+        return callback(null, true);
       }
+
+      // Allow Vercel preview deployments (*.vercel.app)
+      if (process.env.ALLOW_VERCEL_PREVIEWS === "true" && origin) {
+        if (
+          origin.endsWith(".vercel.app") ||
+          origin.endsWith("localhost:3000")
+        ) {
+          return callback(null, true);
+        }
+      }
+
+      callback(new Error(`Origin ${origin} not allowed by CORS`));
     },
     credentials: true,
   })
@@ -219,16 +232,17 @@ app.use((err, req, res, next) => {
     message:
       NODE_ENV === "production" ? "An unexpected error occurred" : err.message,
     ...(NODE_ENV === "development" && { stack: err.stack }),
-  });
-});
-
 /**
  * Εκκίνηση Server (Start Server)
+ * Bind to 0.0.0.0 for Render compatibility
  */
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, "0.0.0.0", () => {
   console.log("\n🚀 PropFlow Server Started");
   console.log(`   Environment: ${NODE_ENV}`);
   console.log(`   Port: ${PORT}`);
+  console.log(`   URL: http://localhost:${PORT}`);
+  console.log(`   Health Check: http://localhost:${PORT}/health\n`);
+});onsole.log(`   Port: ${PORT}`);
   console.log(`   URL: http://localhost:${PORT}`);
   console.log(`   Health Check: http://localhost:${PORT}/health\n`);
 });

@@ -52,7 +52,7 @@ const sequelize = new Sequelize(
         process.env.DB_SSL === "true"
           ? {
               require: true,
-              rejectUnauthorized: false,
+              rejectUnauthorized: false, // Required for Render MySQL
             }
           : undefined,
       // Timeout ρυθμίσεις (Connection timeouts)
