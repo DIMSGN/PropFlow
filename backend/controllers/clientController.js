@@ -87,14 +87,8 @@ exports.createClient = async (req, res) => {
       passport_number,
     } = req.body;
 
-    console.log("Creating client with data:", {
-      first_name,
-      last_name,
-      email,
-      phone,
-      nationality,
-      passport_number,
-    });
+    // Log the incoming data for debugging
+    console.log("Creating client with data:", req.body);
 
     const client = await Client.create({
       first_name,
@@ -105,31 +99,34 @@ exports.createClient = async (req, res) => {
       passport_number,
     });
 
-    console.log("Client created successfully:", client.id);
     res.status(201).json(client);
   } catch (error) {
     console.error("Error creating client:", error);
-    console.error("Error details:", {
-      name: error.name,
-      message: error.message,
-      errors: error.errors,
-    });
     
-    if (error.name === "SequelizeUniqueConstraintError") {
-      return res.status(400).json({
-        error: "Client with this email or passport number already exists",
-      });
-    }
-    
+    // Handle validation errors
     if (error.name === "SequelizeValidationError") {
-      const messages = error.errors.map((e) => e.message);
+      const validationErrors = error.errors.map(err => ({
+        field: err.path,
+        message: err.message
+      }));
       return res.status(400).json({
         error: "Validation failed",
-        details: messages,
+        details: validationErrors
       });
     }
     
-    res.status(500).json({ error: "Failed to create client", details: error.message });
+    // Handle unique constraint errors
+    if (error.name === "SequelizeUniqueConstraintError") {
+      const field = error.errors[0]?.path;
+      return res.status(400).json({
+        error: `A client with this ${field} already exists`,
+      });
+    }
+    
+    res.status(500).json({ 
+      error: "Failed to create client",
+      details: error.message 
+    });
   }
 };
 
@@ -145,6 +142,8 @@ exports.updateClient = async (req, res) => {
       nationality,
       passport_number,
     } = req.body;
+
+    console.log("Updating client:", id, req.body);
 
     const client = await Client.findByPk(id);
 
@@ -164,27 +163,31 @@ exports.updateClient = async (req, res) => {
     res.json(client);
   } catch (error) {
     console.error("Error updating client:", error);
-    console.error("Error details:", {
-      name: error.name,
-      message: error.message,
-      errors: error.errors,
-    });
     
-    if (error.name === "SequelizeUniqueConstraintError") {
-      return res.status(400).json({
-        error: "Client with this email or passport number already exists",
-      });
-    }
-    
+    // Handle validation errors
     if (error.name === "SequelizeValidationError") {
-      const messages = error.errors.map((e) => e.message);
+      const validationErrors = error.errors.map(err => ({
+        field: err.path,
+        message: err.message
+      }));
       return res.status(400).json({
         error: "Validation failed",
-        details: messages,
+        details: validationErrors
       });
     }
     
-    res.status(500).json({ error: "Failed to update client", details: error.message });
+    // Handle unique constraint errors
+    if (error.name === "SequelizeUniqueConstraintError") {
+      const field = error.errors[0]?.path;
+      return res.status(400).json({
+        error: `A client with this ${field} already exists`,
+      });
+    }
+    
+    res.status(500).json({ 
+      error: "Failed to update client",
+      details: error.message 
+    });
   }
 };
 

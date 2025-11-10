@@ -89,15 +89,7 @@ exports.createProperty = async (req, res) => {
     const { title, address, city, price, description, status, clientId } =
       req.body;
 
-    console.log("Creating property with data:", {
-      title,
-      address,
-      city,
-      price,
-      description,
-      status,
-      clientId,
-    });
+    console.log("Creating property with data:", req.body);
 
     const property = await Property.create({
       title,
@@ -109,25 +101,34 @@ exports.createProperty = async (req, res) => {
       clientId: clientId || null,
     });
 
-    console.log("Property created successfully:", property.id);
     res.status(201).json(property);
   } catch (error) {
     console.error("Error creating property:", error);
-    console.error("Error details:", {
-      name: error.name,
-      message: error.message,
-      errors: error.errors,
-    });
     
+    // Handle validation errors
     if (error.name === "SequelizeValidationError") {
-      const messages = error.errors.map((e) => e.message);
+      const validationErrors = error.errors.map(err => ({
+        field: err.path,
+        message: err.message
+      }));
       return res.status(400).json({
         error: "Validation failed",
-        details: messages,
+        details: validationErrors
       });
     }
     
-    res.status(500).json({ error: "Failed to create property", details: error.message });
+    // Handle foreign key constraint errors
+    if (error.name === "SequelizeForeignKeyConstraintError") {
+      return res.status(400).json({
+        error: "Invalid client reference",
+        details: "The specified client does not exist"
+      });
+    }
+    
+    res.status(500).json({ 
+      error: "Failed to create property",
+      details: error.message 
+    });
   }
 };
 
@@ -178,21 +179,31 @@ exports.updateProperty = async (req, res) => {
     res.json(updatedProperty);
   } catch (error) {
     console.error("Error updating property:", error);
-    console.error("Error details:", {
-      name: error.name,
-      message: error.message,
-      errors: error.errors,
-    });
     
+    // Handle validation errors
     if (error.name === "SequelizeValidationError") {
-      const messages = error.errors.map((e) => e.message);
+      const validationErrors = error.errors.map(err => ({
+        field: err.path,
+        message: err.message
+      }));
       return res.status(400).json({
         error: "Validation failed",
-        details: messages,
+        details: validationErrors
       });
     }
     
-    res.status(500).json({ error: "Failed to update property", details: error.message });
+    // Handle foreign key constraint errors
+    if (error.name === "SequelizeForeignKeyConstraintError") {
+      return res.status(400).json({
+        error: "Invalid client reference",
+        details: "The specified client does not exist"
+      });
+    }
+    
+    res.status(500).json({ 
+      error: "Failed to update property",
+      details: error.message 
+    });
   }
 };
 

@@ -62,6 +62,8 @@ const ClientForm = ({ open, client, onClose }) => {
     setError("");
 
     try {
+      console.log("Submitting client data:", formData);
+      
       if (client) {
         await axios.put(API_ENDPOINTS.CLIENT_BY_ID(client.id), formData);
       } else {
@@ -69,7 +71,26 @@ const ClientForm = ({ open, client, onClose }) => {
       }
       onClose(true);
     } catch (err) {
-      setError(err.response?.data?.error || "Failed to save client");
+      console.error("Client form error:", err.response?.data);
+      
+      // Format error message
+      let errorMessage = "Failed to save client";
+      
+      if (err.response?.data?.error) {
+        errorMessage = err.response.data.error;
+        
+        // Add validation details if available
+        if (err.response.data.details && Array.isArray(err.response.data.details)) {
+          const detailMessages = err.response.data.details
+            .map(d => `${d.field}: ${d.message}`)
+            .join(", ");
+          errorMessage += ` - ${detailMessages}`;
+        } else if (err.response.data.details) {
+          errorMessage += ` - ${err.response.data.details}`;
+        }
+      }
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
