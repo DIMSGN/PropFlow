@@ -89,6 +89,16 @@ exports.createProperty = async (req, res) => {
     const { title, address, city, price, description, status, clientId } =
       req.body;
 
+    console.log("Creating property with data:", {
+      title,
+      address,
+      city,
+      price,
+      description,
+      status,
+      clientId,
+    });
+
     const property = await Property.create({
       title,
       address,
@@ -99,10 +109,25 @@ exports.createProperty = async (req, res) => {
       clientId: clientId || null,
     });
 
+    console.log("Property created successfully:", property.id);
     res.status(201).json(property);
   } catch (error) {
     console.error("Error creating property:", error);
-    res.status(500).json({ error: "Failed to create property" });
+    console.error("Error details:", {
+      name: error.name,
+      message: error.message,
+      errors: error.errors,
+    });
+    
+    if (error.name === "SequelizeValidationError") {
+      const messages = error.errors.map((e) => e.message);
+      return res.status(400).json({
+        error: "Validation failed",
+        details: messages,
+      });
+    }
+    
+    res.status(500).json({ error: "Failed to create property", details: error.message });
   }
 };
 
@@ -153,7 +178,21 @@ exports.updateProperty = async (req, res) => {
     res.json(updatedProperty);
   } catch (error) {
     console.error("Error updating property:", error);
-    res.status(500).json({ error: "Failed to update property" });
+    console.error("Error details:", {
+      name: error.name,
+      message: error.message,
+      errors: error.errors,
+    });
+    
+    if (error.name === "SequelizeValidationError") {
+      const messages = error.errors.map((e) => e.message);
+      return res.status(400).json({
+        error: "Validation failed",
+        details: messages,
+      });
+    }
+    
+    res.status(500).json({ error: "Failed to update property", details: error.message });
   }
 };
 

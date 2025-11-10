@@ -87,6 +87,15 @@ exports.createClient = async (req, res) => {
       passport_number,
     } = req.body;
 
+    console.log("Creating client with data:", {
+      first_name,
+      last_name,
+      email,
+      phone,
+      nationality,
+      passport_number,
+    });
+
     const client = await Client.create({
       first_name,
       last_name,
@@ -96,15 +105,31 @@ exports.createClient = async (req, res) => {
       passport_number,
     });
 
+    console.log("Client created successfully:", client.id);
     res.status(201).json(client);
   } catch (error) {
     console.error("Error creating client:", error);
+    console.error("Error details:", {
+      name: error.name,
+      message: error.message,
+      errors: error.errors,
+    });
+    
     if (error.name === "SequelizeUniqueConstraintError") {
       return res.status(400).json({
         error: "Client with this email or passport number already exists",
       });
     }
-    res.status(500).json({ error: "Failed to create client" });
+    
+    if (error.name === "SequelizeValidationError") {
+      const messages = error.errors.map((e) => e.message);
+      return res.status(400).json({
+        error: "Validation failed",
+        details: messages,
+      });
+    }
+    
+    res.status(500).json({ error: "Failed to create client", details: error.message });
   }
 };
 
@@ -139,12 +164,27 @@ exports.updateClient = async (req, res) => {
     res.json(client);
   } catch (error) {
     console.error("Error updating client:", error);
+    console.error("Error details:", {
+      name: error.name,
+      message: error.message,
+      errors: error.errors,
+    });
+    
     if (error.name === "SequelizeUniqueConstraintError") {
       return res.status(400).json({
         error: "Client with this email or passport number already exists",
       });
     }
-    res.status(500).json({ error: "Failed to update client" });
+    
+    if (error.name === "SequelizeValidationError") {
+      const messages = error.errors.map((e) => e.message);
+      return res.status(400).json({
+        error: "Validation failed",
+        details: messages,
+      });
+    }
+    
+    res.status(500).json({ error: "Failed to update client", details: error.message });
   }
 };
 

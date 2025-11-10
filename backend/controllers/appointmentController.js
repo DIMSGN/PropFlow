@@ -150,6 +150,18 @@ exports.createAppointment = async (req, res) => {
   } = req.body;
 
   try {
+    console.log("Creating appointment with data:", {
+      title,
+      description,
+      startDate,
+      endDate,
+      status,
+      notes,
+      clientId,
+      propertyId,
+      assignedUserId,
+    });
+
     const appointment = await Appointment.create({
       title,
       description,
@@ -178,10 +190,25 @@ exports.createAppointment = async (req, res) => {
       }
     );
 
+    console.log("Appointment created successfully:", appointment.id);
     res.status(201).json(appointmentWithRelations);
   } catch (error) {
     console.error("Error creating appointment:", error);
-    res.status(500).json({ error: "Failed to create appointment" });
+    console.error("Error details:", {
+      name: error.name,
+      message: error.message,
+      errors: error.errors,
+    });
+    
+    if (error.name === "SequelizeValidationError") {
+      const messages = error.errors.map((e) => e.message);
+      return res.status(400).json({
+        error: "Validation failed",
+        details: messages,
+      });
+    }
+    
+    res.status(500).json({ error: "Failed to create appointment", details: error.message });
   }
 };
 
@@ -296,7 +323,21 @@ exports.updateAppointment = async (req, res) => {
     res.status(200).json(updatedAppointment);
   } catch (error) {
     console.error("Error updating appointment:", error);
-    res.status(500).json({ error: "Failed to update appointment" });
+    console.error("Error details:", {
+      name: error.name,
+      message: error.message,
+      errors: error.errors,
+    });
+    
+    if (error.name === "SequelizeValidationError") {
+      const messages = error.errors.map((e) => e.message);
+      return res.status(400).json({
+        error: "Validation failed",
+        details: messages,
+      });
+    }
+    
+    res.status(500).json({ error: "Failed to update appointment", details: error.message });
   }
 };
 
