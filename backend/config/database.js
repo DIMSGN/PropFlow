@@ -12,7 +12,11 @@ const dbConfig = {
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   host: process.env.DB_HOST,
-  port: parseInt(process.env.DB_PORT || (process.env.DB_DIALECT === "postgres" ? "5432" : "3306"), 10),
+  port: parseInt(
+    process.env.DB_PORT ||
+      (process.env.DB_DIALECT === "postgres" ? "5432" : "3306"),
+    10
+  ),
   dialect: process.env.DB_DIALECT || "mysql",
 };
 
@@ -48,24 +52,27 @@ const sequelize = new Sequelize(
     },
 
     // SSL ρυθμίσεις για παραγωγή (SSL settings for production)
-    dialectOptions: dbConfig.dialect === "postgres" 
-      ? {
-          ssl: process.env.DB_SSL === "true"
-            ? {
-                require: true,
-                rejectUnauthorized: false, // Required for Render PostgreSQL
-              }
-            : false,
-        }
-      : {
-          ssl: process.env.DB_SSL === "true"
-            ? {
-                require: true,
-                rejectUnauthorized: false, // Required for Render MySQL
-              }
-            : undefined,
-          connectTimeout: 20000,
-        },
+    dialectOptions:
+      dbConfig.dialect === "postgres"
+        ? {
+            ssl:
+              process.env.DB_SSL === "true"
+                ? {
+                    require: true,
+                    rejectUnauthorized: false, // Required for Render PostgreSQL
+                  }
+                : false,
+          }
+        : {
+            ssl:
+              process.env.DB_SSL === "true"
+                ? {
+                    require: true,
+                    rejectUnauthorized: false, // Required for Render MySQL
+                  }
+                : undefined,
+            connectTimeout: 20000,
+          },
 
     // Logging: ενεργοποιημένο μόνο σε development (Logging: enabled only in development)
     logging: process.env.NODE_ENV === "production" ? false : console.log,
