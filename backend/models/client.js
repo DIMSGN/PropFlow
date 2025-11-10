@@ -86,12 +86,15 @@ const Client = sequelize.define(
     },
     passport_number: {
       type: DataTypes.STRING(50),
-      allowNull: true,
+      allowNull: false,
       unique: {
         name: "unique_client_passport",
         msg: "This passport number is already registered",
       },
       validate: {
+        notEmpty: {
+          msg: "Passport number cannot be empty",
+        },
         len: {
           args: [3, 50],
           msg: "Passport number must be between 3 and 50 characters",

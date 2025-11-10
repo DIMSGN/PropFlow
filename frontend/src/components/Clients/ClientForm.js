@@ -169,7 +169,10 @@ const ClientForm = ({ open, client, onClose }) => {
                 name="passport_number"
                 value={formData.passport_number}
                 onChange={handleChange}
+                required
                 disabled={loading}
+                inputProps={{ minLength: 3, maxLength: 50 }}
+                helperText="Required: 3-50 characters"
               />
             </Grid>
           </Grid>
