@@ -49,7 +49,30 @@ if (NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-// CORS ρύθμιση με whitelist (CORS setup with whitelist)
+/**
+ * ============================================================================
+ * ΣΗΜΕΙΟ ΣΥΝΔΕΣΗΣ #1: CORS - Επιτρέπει το Frontend να μιλήσει με το Backend
+ * CONNECTION POINT #1: CORS - Allows Frontend to communicate with Backend
+ * ============================================================================
+ * 
+ * ❓ ΤΙ ΕΙΝΑΙ: Ασφαλιστική πόρτα που ελέγχει ποιος μπορεί να στείλει requests
+ * ❓ WHAT IS: Security gate that controls who can send requests
+ * 
+ * 📍 ΓΙΑΤΙ ΧΡΕΙΑΖΕΤΑΙ: Οι browsers δεν επιτρέπουν σε μια ιστοσελίδα (π.χ. vercel.app)
+ *    να στέλνει requests σε άλλο domain (π.χ. render.com) χωρίς άδεια!
+ * 📍 WHY NEEDED: Browsers block websites from different domains talking to each other
+ *    without permission (security feature called "Same Origin Policy")
+ * 
+ * 🔧 ΠΩΣ ΔΟΥΛΕΥΕΙ:
+ *    1. Frontend (https://propflow.vercel.app) στέλνει request
+ *    2. Browser λέει: "Περίμενε! Αυτό είναι .vercel.app αλλά το API είναι .render.com!"
+ *    3. Backend (εδώ) λέει: "Είναι OK, το επιτρέπω!" (via CORS headers)
+ *    4. Browser: "Εντάξει, θα το αφήσω να περάσει"
+ * 
+ * @constant {Array<string>} allowedOrigins - Λίστα επιτρεπόμενων frontend URLs
+ * @property {string} process.env.FRONTEND_URL - Το production frontend URL (από Vercel)
+ * @property {string} "http://localhost:3000" - Για local development
+ */
 const allowedOrigins = [
   process.env.FRONTEND_URL || "http://localhost:3000",
   "http://localhost:3000",
@@ -59,16 +82,22 @@ const allowedOrigins = [
 
 app.use(
   cors({
+    /**
+     * @param {string} origin - Η διεύθυνση από όπου ήρθε το request (πχ. https://propflow.vercel.app)
+     * @param {Function} callback - Λέει στον browser αν επιτρέπεται ή όχι
+     */
     origin: (origin, callback) => {
       // Επιτρέπει requests χωρίς origin (π.χ. mobile apps, Postman)
       // Allow requests with no origin (e.g., mobile apps, Postman)
       if (!origin) return callback(null, true);
 
+      // Ελέγχει αν το origin είναι στη λίστα των επιτρεπόμενων
       // Check if origin is in allowed list
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
 
+      // Επιτρέπει Vercel preview deployments (*.vercel.app)
       // Allow Vercel preview deployments (*.vercel.app)
       if (process.env.ALLOW_VERCEL_PREVIEWS === "true" && origin) {
         if (
@@ -79,18 +108,66 @@ app.use(
         }
       }
 
+      // ΑΠΟΚΛΕΙΣΜΟΣ: Αν φτάσαμε εδώ, το origin ΔΕΝ επιτρέπεται
+      // BLOCKED: If we reach here, the origin is NOT allowed
       callback(new Error(`Origin ${origin} not allowed by CORS`));
     },
-    credentials: true,
+    credentials: true, // Επιτρέπει cookies/authentication headers
   })
 );
 
-// JSON parsing με όριο μεγέθους (JSON parsing with size limit)
+/**
+ * ============================================================================
+ * ΣΗΜΕΙΟ ΣΥΝΔΕΣΗΣ #2: JSON Parser - Μεταφράζει τα μηνύματα από το Frontend
+ * CONNECTION POINT #2: JSON Parser - Translates messages from Frontend
+ * ============================================================================
+ * 
+ * 📦 ΤΙ ΚΑΝΕΙ: Όταν το frontend στέλνει δεδομένα (πχ. νέος client), τα στέλνει
+ *    σαν "κείμενο" (JSON string). Αυτό το middleware τα μετατρέπει σε JavaScript object
+ * 📦 WHAT IT DOES: When frontend sends data (e.g., new client), it sends it as
+ *    "text" (JSON string). This middleware converts it to JavaScript object
+ * 
+ * 📨 ΠΑΡΑΔΕΙΓΜΑ:
+ *    Frontend στέλνει: '{"first_name":"Δημήτρης","email":"test@example.com"}'
+ *    Middleware μετατρέπει σε: { first_name: "Δημήτρης", email: "test@example.com" }
+ *    Controller παίρνει: req.body = { first_name: "Δημήτρης", ... }
+ * 
+ * @middleware express.json - Διαβάζει JSON από το request body
+ * @middleware express.urlencoded - Διαβάζει form data από το request body
+ * @param {string} limit - Μέγιστο μέγεθος request (10MB για file uploads)
+ */
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 // Στατικά αρχεία για uploads (Static files for uploads)
 app.use("/uploads", express.static(uploadsDir));
+
+/**
+ * ============================================================================
+ * ΣΗΜΕΙΟ ΣΥΝΔΕΣΗΣ #3: API Routes - Οι "Πόρτες" που Ακούει το Backend
+ * CONNECTION POINT #3: API Routes - The "Doors" the Backend Listens To
+ * ============================================================================
+ * 
+ * 🚪 ΤΙ ΕΙΝΑΙ: Ορίζουμε ποιες διευθύνσεις (URLs) θα δέχεται το backend
+ * 🚪 WHAT IS: We define which addresses (URLs) the backend will accept
+ * 
+ * 📍 ΠΩΣ ΛΕΙΤΟΥΡΓΕΙ:
+ *    Όταν το frontend στέλνει: GET https://propflow-8k3o.onrender.com/api/clients
+ *    1. Backend βλέπει "/api/clients"
+ *    2. Ψάχνει ποιο route αντιστοιχεί
+ *    3. Βρίσκει: app.use("/api/clients", clientRoutes)
+ *    4. Στέλνει το request στο clientRoutes.js
+ *    5. Το clientRoutes.js το στέλνει στον controller
+ * 
+ * @route /api/appointments - Διαχείριση ραντεβού (appointments management)
+ * @route /api/clients - Διαχείριση πελατών (clients management)
+ * @route /api/properties - Διαχείριση ακινήτων (properties management)
+ * @route /api/users - Διαχείριση χρηστών & authentication (users & auth)
+ * 
+ * ⚠️ ΣΗΜΑΝΤΙΚΟ: Αυτές οι γραμμές ΔΕΝ κάνουν τη δουλειά μόνες τους!
+ *    Απλά λένε "Όταν δεις /api/clients, πήγαινε στο clientRoutes.js"
+ *    Το clientRoutes.js έχει τις πραγματικές λειτουργίες (GET, POST, PUT, DELETE)
+ */
 
 /**
  * Σύνδεση με τη Βάση Δεδομένων (Database Connection)
@@ -135,7 +212,32 @@ if (process.env.SYNC_DB === "true" && NODE_ENV === "development") {
 }
 
 /**
- * API Routes (Διαδρομές API)
+ * ============================================================================
+ * ΣΗΜΕΙΟ ΣΥΝΔΕΣΗΣ #3: API Routes Registration - Καταχώρηση των "Πορτών"
+ * CONNECTION POINT #3: API Routes Registration - Registering the "Doors"
+ * ============================================================================
+ * 
+ * 🎯 ΤΙ ΚΑΝΕΙ: Συνδέει κάθε URL path με το αντίστοιχο routes file
+ * 🎯 WHAT IT DOES: Links each URL path to its corresponding routes file
+ * 
+ * 📍 FLOW ΠΑΡΑΔΕΙΓΜΑ (Frontend → Backend):
+ * 
+ *    Frontend κάνει: axios.get("https://propflow-8k3o.onrender.com/api/clients")
+ *                                                                      ↓
+ *    1. Request φτάνει στο backend server                              ↓
+ *    2. Express ψάχνει: "Ποιος χειρίζεται το /api/clients;"           ↓
+ *    3. Βρίσκει αυτή τη γραμμή: app.use("/api/clients", clientRoutes) ↓
+ *    4. Στέλνει το request → backend/routes/clientRoutes.js           ↓
+ *    5. Το clientRoutes.js → backend/controllers/clientController.js  ↓
+ *    6. Ο controller → backend/models/client.js (database query)      ↓
+ *    7. Database → επιστρέφει τα δεδομένα                             ↓
+ *    8. Controller → στέλνει JSON response                            ↓
+ *    9. Backend → Frontend παίρνει τα δεδομένα                        ✅
+ * 
+ * @see {@link ./routes/appointmentRoutes.js} - Χειρίζεται /api/appointments/*
+ * @see {@link ./routes/clientRoutes.js} - Χειρίζεται /api/clients/*
+ * @see {@link ./routes/propertyRoutes.js} - Χειρίζεται /api/properties/*
+ * @see {@link ./routes/userRoutes.js} - Χειρίζεται /api/users/*
  */
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/clients", clientRoutes);

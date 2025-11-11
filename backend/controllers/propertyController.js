@@ -104,30 +104,30 @@ exports.createProperty = async (req, res) => {
     res.status(201).json(property);
   } catch (error) {
     console.error("Error creating property:", error);
-    
+
     // Handle validation errors
     if (error.name === "SequelizeValidationError") {
-      const validationErrors = error.errors.map(err => ({
+      const validationErrors = error.errors.map((err) => ({
         field: err.path,
-        message: err.message
+        message: err.message,
       }));
       return res.status(400).json({
         error: "Validation failed",
-        details: validationErrors
+        details: validationErrors,
       });
     }
-    
+
     // Handle foreign key constraint errors
     if (error.name === "SequelizeForeignKeyConstraintError") {
       return res.status(400).json({
         error: "Invalid client reference",
-        details: "The specified client does not exist"
+        details: "The specified client does not exist",
       });
     }
-    
-    res.status(500).json({ 
+
+    res.status(500).json({
       error: "Failed to create property",
-      details: error.message 
+      details: error.message,
     });
   }
 };
@@ -179,30 +179,30 @@ exports.updateProperty = async (req, res) => {
     res.json(updatedProperty);
   } catch (error) {
     console.error("Error updating property:", error);
-    
+
     // Handle validation errors
     if (error.name === "SequelizeValidationError") {
-      const validationErrors = error.errors.map(err => ({
+      const validationErrors = error.errors.map((err) => ({
         field: err.path,
-        message: err.message
+        message: err.message,
       }));
       return res.status(400).json({
         error: "Validation failed",
-        details: validationErrors
+        details: validationErrors,
       });
     }
-    
+
     // Handle foreign key constraint errors
     if (error.name === "SequelizeForeignKeyConstraintError") {
       return res.status(400).json({
         error: "Invalid client reference",
-        details: "The specified client does not exist"
+        details: "The specified client does not exist",
       });
     }
-    
-    res.status(500).json({ 
+
+    res.status(500).json({
       error: "Failed to update property",
-      details: error.message 
+      details: error.message,
     });
   }
 };

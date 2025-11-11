@@ -151,7 +151,7 @@ exports.createAppointment = async (req, res) => {
 
   try {
     console.log("Creating appointment with data:", req.body);
-    
+
     const appointment = await Appointment.create({
       title,
       description,
@@ -183,30 +183,30 @@ exports.createAppointment = async (req, res) => {
     res.status(201).json(appointmentWithRelations);
   } catch (error) {
     console.error("Error creating appointment:", error);
-    
+
     // Handle validation errors
     if (error.name === "SequelizeValidationError") {
-      const validationErrors = error.errors.map(err => ({
+      const validationErrors = error.errors.map((err) => ({
         field: err.path,
-        message: err.message
+        message: err.message,
       }));
       return res.status(400).json({
         error: "Validation failed",
-        details: validationErrors
+        details: validationErrors,
       });
     }
-    
+
     // Handle foreign key constraint errors
     if (error.name === "SequelizeForeignKeyConstraintError") {
       return res.status(400).json({
         error: "Invalid reference",
-        details: "The specified client, property, or user does not exist"
+        details: "The specified client, property, or user does not exist",
       });
     }
-    
-    res.status(500).json({ 
+
+    res.status(500).json({
       error: "Failed to create appointment",
-      details: error.message 
+      details: error.message,
     });
   }
 };
@@ -290,7 +290,7 @@ exports.updateAppointment = async (req, res) => {
 
   try {
     console.log("Updating appointment:", id, req.body);
-    
+
     const appointment = await Appointment.findByPk(id);
     if (!appointment) {
       return res.status(404).json({ error: "Appointment not found" });
@@ -324,30 +324,30 @@ exports.updateAppointment = async (req, res) => {
     res.status(200).json(updatedAppointment);
   } catch (error) {
     console.error("Error updating appointment:", error);
-    
+
     // Handle validation errors
     if (error.name === "SequelizeValidationError") {
-      const validationErrors = error.errors.map(err => ({
+      const validationErrors = error.errors.map((err) => ({
         field: err.path,
-        message: err.message
+        message: err.message,
       }));
       return res.status(400).json({
         error: "Validation failed",
-        details: validationErrors
+        details: validationErrors,
       });
     }
-    
+
     // Handle foreign key constraint errors
     if (error.name === "SequelizeForeignKeyConstraintError") {
       return res.status(400).json({
         error: "Invalid reference",
-        details: "The specified client, property, or user does not exist"
+        details: "The specified client, property, or user does not exist",
       });
     }
-    
-    res.status(500).json({ 
+
+    res.status(500).json({
       error: "Failed to update appointment",
-      details: error.message 
+      details: error.message,
     });
   }
 };
